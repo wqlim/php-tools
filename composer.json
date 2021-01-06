@@ -1,0 +1,19 @@
+{
+    "name": "wqlim/php-tools",
+    "description": "php tools",
+    "authors": [
+        {
+            "name": "wqlim",
+            "email": "wqlim@qq.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "wqlim\\tools\\": "src/"
+        },
+        "files": [
+            "src/common.php"
+        ]
+    }
+}
