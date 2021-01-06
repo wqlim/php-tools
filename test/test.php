@@ -1,10 +1,9 @@
 <?php
 
+use wqlim\tools\db\Table;
 use wqlim\tools\wechat\Api;
 
 require "../vendor/autoload.php";
 
-
-echo config('weixin_url');
-
-echo Api::test('最新版');
+//查看数据结构
+Table::index('127.0.0.1','test','root','123456');

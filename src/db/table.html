@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>数据字典</title>
+<style type="text/css">
+body,td,th {font-size: 14px;font-family: "Trebuchet MS", "Lucida Console", "Lucida Sans";color: #000000;}
+table {width: 1000px;margin-right: auto;margin-left: auto;border-top-style: none;border-right-style: none;border-bottom-style: none;border-left-style: none;margin-top: 15px;margin-bottom: 0px;}
+table thead tr .t_title{text-align: left;height: 30px;font-size: 20px;border-bottom-width: 1px;border-bottom-style: dashed;border-bottom-color: #666666;}
+table thead tr td{text-align: center;font-weight: bold;}
+table tbody tr {background-color: #D5D5D5;}
+table tbody tr:hover {background-color: #BBFFBB;}
+table tbody tr td{text-align: left;margin: 0px;height: 20px;padding-left: 5px;vertical-align: middle;}
+.update{margin: 0px auto;width: 1000px;}
+#FloatDIV{position: absolute;top: 0px;border: activeborder 1px solid #FF9900;background:#FFF9DD; overflow:auto;filter:Alpha(opacity=90)}
+#FloatDIV ul{list-style:none; padding:5px 0; margin:0}
+#FloatDIV li{ padding:0 5px;}
+#FloatDIV a{ padding:0 5px;display:block; color:#000; text-decoration:none}
+#FloatDIV a:hover{ color:#fff; background:#FF9900;}
+</style>
+</head>
+<body>
+<div class="update"> (共<?php echo $tableCount; ?>张表) 数据库：<?php echo $database; ?> </div>
+<?php foreach ($tabs as $tab) { ?>
+	<table>
+		<thead>
+			<tr>
+				<td colspan="5" class="t_title"><a name="#<?php echo $tab['table_name'] ?>"></a><?php echo $tab['table_name'], $tab['table_comment']; ?></td>
+			</tr>
+			<tr>
+				<td width="15%">字段</td>
+				<td width="20%">类型</td>
+				<td width="5%">NULL</td>
+				<td width="15%">默认值</td>
+				<td width="45%">注释</td>
+			</tr>
+		</thead>
+		<tbody>
+			<?php
+			foreach ($tab['table_field'] as $key) {
+				?>
+				<tr>
+					<td><?php
+		$str1 = $key['Extra'] ? "[auto]" : '';
+		if ($key['Key'] === '') {
+			$str2 = '';
+		} elseif ($key['Key'] == 'PRI') {
+			$str2 = '[主]';
+		} else {
+			$str2 = '[索]';
+		}
+
+		if ($key['Extra'] || $key['Key']) {
+			echo '<strong>' . $key['Field'] . ' ' . $str2 . $str1 . '</strong> ';
+		} else {
+			echo $key['Field'];
+		}
+				?></td>
+					<td><?php echo $key['Type']; ?></td>
+					<td><?php echo $key['Null']; ?></td>
+					<td><?php echo $key['Default']; ?></td>
+					<td><?php echo $key['Comment']; ?></td>
+				</tr>
+				<?php
+			} ?>
+		</tbody>
+	</table>
+	<?php
+} ?>
+</body>
+</html>
