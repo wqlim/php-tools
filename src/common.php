@@ -1,20 +1,20 @@
 <?php
 // 函数库
 
-if (!function_exists('config')) {
+if (!function_exists('get_config')) {
     /**
      * 读取配置文件
      * @param string $name 配置项
      * @return string
      */
-    function config($name)
+    function get_config($name)
     {
         $config = require("config.php");
         return $config[$name];
     }
 }
 
-if (!function_exists('randString')) {
+if (!function_exists('rand_string')) {
     /**
      * 产生随机字串，可用来自动生成密码，默认长度6位 字母和数字混合
      * @param string $len 长度
@@ -22,7 +22,7 @@ if (!function_exists('randString')) {
      * @param string $addChars 额外字符
      * @return string
      */
-    function randString($len = 6, $type = '', $addChars = '')
+    function rand_string($len = 6, $type = '', $addChars = '')
     {
         $str = '';
         switch ($type) {
@@ -51,5 +51,53 @@ if (!function_exists('randString')) {
             $str = substr($chars, 0, $len);
         }
         return $str;
+    }
+}
+
+
+if (!function_exists('check_mobile')) {
+    /**
+     * 手机号码验证
+     * @param $mobile 手机号
+     */
+    function check_mobile($mobile)
+    {
+        if (!is_numeric($mobile)) {
+            return false;
+        }
+        return preg_match('#^13[\d]{9}$|^14[5,7]{1}\d{8}$|^15[^4]{1}\d{8}$|^17[0,3,6,7,8]{1}\d{8}$|^18[\d]{9}$#', $mobile) ? true : false;
+    }
+}
+
+if (!function_exists('send_http_request')) {
+    /**
+     * 发送HTTP请求
+     * @param $url 请求链接
+     * @param $method 请求类型GET/POST
+     * @param $data 请求数据
+     * @return json
+     */
+    function send_http_request($url, $method = "GET", $data)
+    {
+        if (empty($url)) {
+            return false;
+        }
+        $curl = curl_init();
+        if (strtolower($method) == "post") {
+            curl_setopt($curl, CURLOPT_POST, 1);
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HEADER, 0);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        $result = curl_exec($curl);
+        if ($result == false) {
+            curl_close($curl);
+            return false;
+        } else {
+            curl_close($curl);
+            //var_dump(json_decode($result));exit;  
+            return json_decode($result);
+        }
     }
 }
