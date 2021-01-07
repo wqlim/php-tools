@@ -55,12 +55,12 @@ if (!function_exists('rand_string')) {
 }
 
 
-if (!function_exists('check_mobile')) {
+if (!function_exists('is_mobile')) {
     /**
      * 手机号码验证
      * @param $mobile 手机号
      */
-    function check_mobile($mobile)
+    function is_mobile($mobile)
     {
         if (!is_numeric($mobile)) {
             return false;
@@ -69,17 +69,15 @@ if (!function_exists('check_mobile')) {
     }
 }
 
-if (!function_exists('check_email')) {
+if (!function_exists('is_email')) {
     /**
      * 邮箱码验证
      * @param $email 邮箱
      */
-    function check_email($email)
+    function is_email($email)
     {
-        if (!is_numeric($email)) {
-            return false;
-        }
-        return preg_match('#^13[\d]{9}$|^14[5,7]{1}\d{8}$|^15[^4]{1}\d{8}$|^17[0,3,6,7,8]{1}\d{8}$|^18[\d]{9}$#', $email) ? true : false;
+        $regex= '/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/';
+        return preg_match($regex, $email) ? true : false;
     }
 }
 
