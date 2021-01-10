@@ -17,7 +17,7 @@ class Api
      * @param string        $access_token 微信access_token
      * @param array         $data 二维数组  要发送的数据内容
      */
-    function send($touser, $template_id, $access_token, $data)
+    public static function send($touser, $template_id, $access_token, $data)
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token=' . $access_token;
         $send_data = array(
@@ -34,7 +34,7 @@ class Api
      * @param string        $secret 小程序的secret
      * @param string        $code 小程序登陆凭证code
      */
-    function jscode2session($appid, $secret, $code)
+    public static function jscode2session($appid, $secret, $code)
     {
         $url = 'https://api.weixin.qq.com/sns/jscode2session?appid=' . $appid . '&secret=' . $secret . '&js_code=' . $code . '&grant_type=authorization_code';
         return send_http_request($url);
