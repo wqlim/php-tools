@@ -89,13 +89,13 @@ if (!function_exists('send_http_request')) {
      * @param $data 请求数据
      * @return json
      */
-    function send_http_request($url, $method = "GET", $data)
+    function send_http_request($url, $method = 'GET', $data='')
     {
         if (empty($url)) {
             return false;
         }
         $curl = curl_init();
-        if (strtolower($method) == "post") {
+        if (strtolower($method) == 'post') {
             curl_setopt($curl, CURLOPT_POST, 1);
         }
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -109,7 +109,7 @@ if (!function_exists('send_http_request')) {
         } else {
             curl_close($curl);
             //var_dump(json_decode($result));exit;  
-            return json_decode($result);
+            return json_decode($result,true);
         }
     }
 }

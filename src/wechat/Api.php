@@ -27,4 +27,16 @@ class Api
         );
         return send_http_request($url,'POST', $send_data);
     }
+
+    /**
+     * 小程序登陆，使用code换取openid
+     * @param string        $appid 小程序的appid
+     * @param string        $secret 小程序的secret
+     * @param string        $code 小程序登陆凭证code
+     */
+    function jscode2session($appid, $secret, $code)
+    {
+        $url = 'https://api.weixin.qq.com/sns/jscode2session?appid=' . $appid . '&secret=' . $secret . '&js_code=' . $code . '&grant_type=authorization_code';
+        return send_http_request($url);
+    }
 }
