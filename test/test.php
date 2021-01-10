@@ -16,3 +16,4 @@ is_mobile($tel);
 $url = 'http://wsxb.wqlim.com/api/wsxb/index/return_type';
 $data = send_http_request($url);
 var_dump($data);
+dump($data);

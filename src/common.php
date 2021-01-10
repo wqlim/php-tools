@@ -14,6 +14,43 @@ if (!function_exists('get_config')) {
     }
 }
 
+/**
+ * 浏览器友好的变量输出,便于调试时候使用
+ *
+ * @param     mixed   $var       要输出查看的内容
+ * @param     bool    $echo      是否直接输出
+ * @param     string  $label     加上说明标签,如果有,这显示"标签名:"这种形式
+ * @param     bool    $strict    是否严格过滤
+ * @return    string
+ */
+if (!function_exists('dump')){
+    function dump($var, $echo=true, $label=null, $strict=true)
+    {
+        $label = ($label===null) ? '' : rtrim($label) . ' ';
+        if(!$strict) {
+            if (ini_get('html_errors')) {
+                $output = print_r($var, true);
+                $output = "<pre>".$label.htmlspecialchars($output,ENT_QUOTES)."</pre>";
+            } else {
+                $output = $label . " : " . print_r($var, true);
+            }
+        }else {
+            ob_start();
+            var_dump($var);
+            $output = ob_get_clean();
+            if(!extension_loaded('xdebug')) {
+                $output = preg_replace("/\]\=\>\n(\s+)/m", "] => ", $output);
+                $output = '<pre>'. $label. htmlspecialchars($output, ENT_QUOTES). '</pre>';
+            }
+        }
+        if ($echo) {
+            echo($output);
+            return null;
+        }else
+            return $output;
+    }
+}
+
 if (!function_exists('rand_string')) {
     /**
      * 产生随机字串，可用来自动生成密码，默认长度6位 字母和数字混合
@@ -87,7 +124,7 @@ if (!function_exists('send_http_request')) {
      * @param $url 请求链接
      * @param $method 请求类型GET/POST
      * @param $data 请求数据
-     * @return json
+     * @return array
      */
     function send_http_request($url, $method = 'GET', $data='')
     {
