@@ -150,3 +150,16 @@ if (!function_exists('send_http_request')) {
         }
     }
 }
+
+if (!function_exists('get_password')) {
+    /**
+     * 获取加密后的密码
+     * @param $pw 明文密码
+     * @param $code 加密字符串
+     * @return string
+     */
+    function get_password($pw, $code='wqlim')
+    {
+        return md5($pw.$code.$pw);
+    }
+}
